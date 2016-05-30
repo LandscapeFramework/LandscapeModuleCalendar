@@ -2,7 +2,7 @@
 
     interface CalendarMember
     {
-        public function build();
+        public function build($host);
     }
 
 ?>

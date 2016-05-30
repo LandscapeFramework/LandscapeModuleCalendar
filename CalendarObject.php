@@ -18,9 +18,15 @@
     {
         protected $prodid = "LandscapeCalendarModule / dev";
         protected $items = [];
+        protected $host;
 
-        public function __construct()
-        {}
+        public $summary = NULL;
+
+        public function __construct($host, $sum=NULL)
+        {
+            $this->summary = $sum;
+            $this->host = $host;
+        }
 
         public function addItem(CalendarMember $item)
         {
@@ -33,9 +39,14 @@
 
             $ret = "BEGIN:VCALENDAR".$nl."VERSION:2.0".$nl."PRODID:$this->prodid".$nl."METHOD:PUBLISH".$nl;
 
+            if($this->summary != NULL)
+            {
+                $ret = $ret."SUMMARY:".$this->summary.$nl;
+            }
+
             foreach($this->items as $item)
             {
-                $ret = $ret.$item->build();
+                $ret = $ret.$item->build($this->host);
             }
 
             $ret = $ret."END:VCALENDAR".$nl;
